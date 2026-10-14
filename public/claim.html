@@ -1,0 +1,164 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Submit a claim — ClaimSentry</title>
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<header class="site">
+  <div class="bar">
+    <div class="brand">
+      <span class="mark">CS</span>
+      <span>ClaimSentry
+        <small>claims triage &amp; document integrity</small>
+      </span>
+    </div>
+    <nav>
+      <a href="/">Overview</a>
+      <a href="/claim.html" class="active">Submit a claim</a>
+      <a href="/reviewer.html">Department console</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap narrow">
+  <section id="view-form">
+    <h1>File a claim</h1>
+    <p class="lede">
+      Attach the documents that support your claim — invoices, receipts,
+      medical reports, repair estimates, or photographs of the damage.
+      Files are examined automatically and routed to the appropriate department.
+    </p>
+
+    <div id="form-error" class="hidden"></div>
+    <div id="health" class="notice">Checking service status…</div>
+
+    <form id="claim-form" class="card" novalidate>
+      <h2>Claim details</h2>
+
+      <div class="grid two">
+        <div class="field">
+          <label for="claimantName">Your full name</label>
+          <input type="text" id="claimantName" name="claimantName"
+                 autocomplete="name" required>
+          <div class="err" data-for="claimantName"></div>
+        </div>
+
+        <div class="field">
+          <label for="claimantEmail">E-mail</label>
+          <input type="email" id="claimantEmail" name="claimantEmail"
+                 autocomplete="email">
+          <div class="err" data-for="claimantEmail"></div>
+        </div>
+      </div>
+
+      <div class="grid two">
+        <div class="field">
+          <label for="policyNumber">Policy number</label>
+          <input type="text" id="policyNumber" name="policyNumber"
+                 placeholder="POL-000000" required>
+          <div class="err" data-for="policyNumber"></div>
+        </div>
+
+        <div class="field">
+          <label for="claimType">Line of business</label>
+          <select id="claimType" name="claimType" required></select>
+          <div class="err" data-for="claimType"></div>
+        </div>
+      </div>
+
+      <div class="grid two">
+        <div class="field">
+          <label for="incidentDate">Date of incident</label>
+          <input type="date" id="incidentDate" name="incidentDate">
+          <div class="hint">Leave blank if the date is uncertain.</div>
+          <div class="err" data-for="incidentDate"></div>
+        </div>
+
+        <div class="field">
+          <label for="amount">Amount claimed (USD)</label>
+          <input type="text" id="amount" name="amount"
+                 inputmode="decimal" placeholder="1250.00" required>
+          <div class="err" data-for="amount"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="description">What happened?</label>
+        <textarea id="description" name="description"
+          placeholder="Describe the incident and the loss you are claiming for."></textarea>
+      </div>
+
+      <h2 style="margin-top:22px">Supporting documents</h2>
+      <div class="field">
+        <input type="file" id="documents" name="documents" multiple
+          accept="image/*,application/pdf,.pdf,.png,.jpg,.jpeg,.webp">
+        <div class="hint">
+          Up to 6 files, 8 MB each, 16 MB total.
+          PDFs and photographs both work.
+        </div>
+      </div>
+      <div id="file-list" class="small muted"></div>
+
+      <div class="field consent-panel" style="margin-top:16px">
+        <label>
+          <input type="checkbox" id="aiConsent" name="aiConsent">
+          I consent to sending my claim details and uploaded documents
+          to Google Gemini for AI-assisted document analysis. If I leave
+          this unchecked, the claim will use rules-only assessment and
+          my documents will not be sent to Gemini.
+        </label>
+      </div>
+
+      <div class="btn row" style="margin-top:16px">
+        <button type="submit" class="primary" id="submit-btn">
+          Submit claim
+        </button>
+        <a class="btn ghost" href="#track">Track an existing claim</a>
+      </div>
+    </form>
+  </section>
+
+  <section id="view-result" class="hidden">
+    <h1>Claim received</h1>
+    <div id="result-body"></div>
+  </section>
+
+  <section id="view-track" class="hidden">
+    <h1>Track a claim</h1>
+    <p class="lede">
+      Enter the claim reference and tracking code you received when filing.
+    </p>
+
+    <div id="track-error" class="hidden"></div>
+
+    <form id="track-form" class="card">
+      <div class="grid two">
+        <div class="field">
+          <label for="track-reference">Claim reference</label>
+          <input type="text" id="track-reference"
+                 placeholder="CLM-XXXXXXXXXX" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="track-secret">Tracking code</label>
+          <input type="text" id="track-secret" autocomplete="off">
+        </div>
+      </div>
+      <button type="submit" class="primary">Look up</button>
+    </form>
+
+    <div id="track-body"></div>
+  </section>
+
+  <p class="foot">
+    Your documents are stored privately and are only accessible to
+    the department handling your claim.
+  </p>
+</main>
+
+<script type="module" src="/js/claim.js"></script>
+</body>
+</html>

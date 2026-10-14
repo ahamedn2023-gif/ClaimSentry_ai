@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ClaimSentry — AI-assisted claims triage</title>
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<header class="site">
+  <div class="bar">
+    <div class="brand"><span class="mark">CS</span><span>ClaimSentry<small>claims triage &amp; document integrity</small></span></div>
+    <nav>
+      <a href="/" class="active">Overview</a>
+      <a href="/claim.html">Submit a claim</a>
+      <a href="/reviewer.html">Department console</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow">Human-in-the-loop claims triage</div>
+    <h1>The agent investigates. A person decides.</h1>
+    <p class="lede">
+      A claimant uploads their paperwork. ClaimSentry fingerprints every file, examines it for signs of
+      alteration, cross-checks it against what the claimant declared, scores the risk, and routes the file
+      to the head of the right department. No claim is ever approved or rejected by the model — the
+      department head makes that call, and every action lands in an audit trail.
+    </p>
+    <div class="btn row">
+      <a class="btn primary" href="/claim.html">Submit a claim</a>
+      <a class="btn" href="/reviewer.html">Open the department console</a>
+    </div>
+  </section>
+
+  <div class="grid three" style="margin-top:34px">
+    <div class="card">
+      <h2>1 · Intake</h2>
+      <p class="small muted">
+        The claimant files the claim and attaches photos, invoices, medical reports or a repair estimate.
+        Each file is hashed with SHA-256, stored privately, and never served back to anyone outside the
+        owning department.
+      </p>
+    </div>
+    <div class="card">
+      <h2>2 · Authenticity review</h2>
+      <p class="small muted">
+        A multimodal model examines each document for altered regions, inconsistent fonts, arithmetic that
+        does not add up, duplicated stamps, re-compression artifacts and contradictions with the declared
+        claim. Deterministic rules run in parallel: duplicate submissions, future incident dates, delayed
+        reporting, amount drift between the documents and the claim.
+      </p>
+    </div>
+    <div class="card">
+      <h2>3 · Routing &amp; decision</h2>
+      <p class="small muted">
+        The file is scored, banded and routed — Auto, Health, Property, Life, Travel, or the Special
+        Investigations Unit when the evidence warrants it. The department head sees the evidence, the
+        agent's reasoning and the open questions, then approves, rejects, asks for more information or
+        escalates.
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>What the agent looks for</h2>
+    <div class="grid two">
+      <ul class="small muted">
+        <li>Digitally altered or erased regions, inconsistent fonts, misaligned baselines</li>
+        <li>Cloned text blocks, pasted stamps and signatures, mirrored or cropped seals</li>
+        <li>Line items that do not sum, totals in words that disagree with digits</li>
+        <li>Dates that fall outside the policy period or before the incident</li>
+      </ul>
+      <ul class="small muted">
+        <li>Screenshots of screenshots, recompression and circular JPEG artifacts</li>
+        <li>Untrimmed template placeholders and mismatched letterhead/footer</li>
+        <li>Wrong patient, wrong policy number, wrong currency, wrong service described</li>
+        <li>Photographs where the damage or the scene does not match the statement</li>
+      </ul>
+    </div>
+    <p class="small muted" style="margin-bottom:0">
+      Absence of evidence is not evidence of fraud. Poor scan quality alone never routes a claim to
+      investigations — the routing rules require a concrete, citable indicator.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Built-in controls</h2>
+    <ul class="small muted">
+      <li><strong>Department heads must sign in.</strong> Queues and case files are authorized on the server against the signed-in identity and their assigned department.</li>
+      <li><strong>Cross-department access is refused.</strong> A Health head asking for an Auto claim gets 403, not a redacted page.</li>
+      <li><strong>State-changing requests are same-origin checked</strong>, so a claim cannot be decided from a foreign page.</li>
+      <li><strong>Every step is logged</strong> — submission, storage, duplicate detection, agent assessment, routing, human decision — with the actor, timestamp and reasoning.</li>
+    </ul>
+  </div>
+
+  <p class="foot">ClaimSentry runs on Cloudflare Workers with D1 and R2. Claimants must explicitly opt in before any claim text or document is sent to Gemini. Without consent or a configured <code class="inline">GEMINI_API_KEY</code>, assessment stays rules-only.</p>
+</main>
+</body>
+</html>

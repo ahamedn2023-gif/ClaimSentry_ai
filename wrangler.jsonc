@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "claimsguard",
+  "main": "worker.js",
+  "compatibility_date": "2026-05-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*", "/auth/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "claimsguard-local",
+      "database_id": "8ab1e6a4-2a1d-4a5c-8d3e-6d2f9c0a7b41"
+    }
+  ],
+  "r2_buckets": [
+    { "binding": "FILES", "bucket_name": "claimsguard-local" }
+  ],
+  "vars": {
+    "APP_ORIGIN": "http://localhost:8787",
+    "GEMINI_MODEL": "gemini-3.5-flash-lite",
+    "ADMIN_EMAILS": "ahd@gmail.com"
+  }
+}
